@@ -1,0 +1,6 @@
+flask==2.2.2
+python-dotenv==0.20.0
+dynaconf==3.1.9
+flask_sqlalchemy==2.5.1
+flask_wtf==1.0.1
+

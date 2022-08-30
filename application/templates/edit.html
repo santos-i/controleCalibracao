@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if error %}
+<p class=error style="color:#FF0000"><strong>Error:</strong> {{ error }}
+{% endif %}
+<br>
+<div class="row">
+    <div class="col-sm"></div>
+    <div class="col-sm"></div>
+    <div class="col-sm"></div>
+    <div class="col-sm"></div>
+    <div class="col-sm"></div>
+    <div class="col-sm"></div>
+    <div class="col-sm"></div>
+    <div class="col-sm">
+        <a href="{{url_for('home')}}" class="more"><i class="fa-solid fa-house"></i> Início</a>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col containerItems" style="text-align:center;">
+            <h2 style="color:#ffffff"> Atualizar calibração</h2>
+        </div>
+    </div>
+</div>
+<br>
+<form action="" method="post" enctype="multipart/form-data">
+<div class="row">
+        <div class="col-sm"></div>
+        <div class="col-sm">
+            <div class="form-group">
+                <span style="color:#ffffff; text-align: center;"><strong>Serial Number :</strong>
+                    <input class="form-control" placeholder="{{ equipment.sn }}" type="text" readonly>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm"></div>
+</div>
+<div class="row">
+        <div class="col-sm"></div>
+        <div class="col-sm">
+            <div class="form-group">
+                <span style="color:#ffffff; text-align: center;"><strong>Equipamento :</strong>
+                    <input class="form-control" placeholder="{{ equipment.equipamento }}" type="text" readonly>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm"></div>
+</div>
+<div class="row">
+        <div class="col-sm"></div>
+        <div class="col-sm">
+            <div class="form-group">
+                <span style="color:#ffffff; text-align: center;"><strong>Fabricante :</strong>
+                    <input class="form-control" placeholder="{{ equipment.fabricante }}" type="text" readonly>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm"></div>
+</div>
+<div class="row">
+        <div class="col-sm"></div>
+        <div class="col-sm">
+            <div class="form-group">
+                <span style="color:#ffffff; text-align: center;"><strong>Modelo :</strong>
+                    <input class="form-control" placeholder="{{ equipment.modelo }}" type="text" readonly>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm"></div>
+</div>
+<div class="row">
+        <div class="col-sm"></div>
+        <div class="col-sm">
+            <div class="form-group">
+                <span style="color:#ffffff; text-align: center;"><strong>Projeto :</strong>
+                    <input class="form-control" placeholder="{{ equipment.projeto }}" type="text" readonly>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm"></div>
+</div>
+<div class="row">
+    <div class="col-sm"></div>
+    <div class="col-sm">
+        <div class="form-group">
+            <strong><span style="color:#ffffff; text-align: center;">Necessita calibração? </span></strong>
+            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            <select onchange="yesnoCheck(this);" name="select" id="select">
+                <option value="sim" name="sim"> Sim </option>
+                <option value="nao" name="nao"> Não </option>
+            </select>
+            <div id="ifYes">
+                <br>
+                <strong><span style="color:#ffffff; text-align: center;">Data de Calibração: </span></strong>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
+                <input type="date" id='calibrationDate' name="calibrationDate" required><br><br>
+                <input class="form-control" id="prazo" name="prazo" placeholder="Prazo de vencimento (dias)" type="text" required>
+                &nbsp&nbsp&nbsp&nbsp&nbsp
+                <input type="file" id="certificado" name="certificado" style="color: white;" required>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm"></div>
+</div>
+<div class="container">
+    <div class="row" style="text-align:center;">
+        <div class="col-sm"></div>
+        <div class="col-sm"></div>
+        <div class="col-sm col-11">
+            <button style="width: 150px; background-color: #ea3416; color: #ffffff;" class="btn custom_cta  font-weight-bold delete" type="submit" name="submit_button" value="delete" formnovalidate onclick="return confirm('Deletar o registro do equipamento apagará todos os seus certificados. Certifique-se de fazer o backup dos documentos.\n\nConfirme para deletar!')">
+                Delete </button>
+        </div>
+        <div class="col-sm"> 
+            <a href="{{ url_for('home') }}">
+                <button style="background-color: #faa31b; color: #ffffff; width: 150px;" class=" btn custom_cta" type="submit" name="submit_button" value="cancel" formnovalidate>
+                Cancel</button>
+            </a>      
+            </div>
+            <div class="col-sm col-11">
+                <button style="width: 150px;" class="btn custom_cta  font-weight-bold" type="submit" name="submit_button" value="ok" onclick="return confirm('Confirme as informações para prosseguir!')"> OK </button>
+            </div>
+            <div class="col-sm"></div>
+            <div class="col-sm"></div>
+        </div>
+        </div>
+</form>
+<script>
+    function yesnoCheck(that) {
+        if (that.value == "sim") {
+            document.getElementById("ifYes").style.display = "block";
+            $('#calibrationDate').prop('required', true);
+            $('#prazo').prop('required', true);
+            $('#certificado').prop('required', true);
+            
+        } else {
+            document.getElementById("ifYes").style.display = "none";
+            $('#calibrationDate').prop('required', false);
+            $('#prazo').prop('required', false);
+            $('#certificado').prop('required', false);
+        }
+        
+    }
+    $(function() {
+        $("input[name='prazo']").on('input', function(e) {
+            $(this).val($(this).val().replace(/[^0-9]/g, ''));
+        });
+    });
+
+    var deleteLinks = document.querySelectorAll('.delete');
+
+    </script>
+{% endblock %}

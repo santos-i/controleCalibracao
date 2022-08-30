@@ -1,0 +1,13 @@
+[default]
+SQLALCHEMY_TRACK_MODIFICATIONS = 'False'
+SQLALCHEMY_DATABASE_URI='sqlite:///database.db'
+
+SECRET_KEY = 'SECRET_KEY'
+
+EXTENSIONS = [
+    'application.extensions.database',
+    'application.extensions.commands',
+
+    'application.services.routes',
+]
+

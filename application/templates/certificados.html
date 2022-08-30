@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-sm">
+        <img src="{{ url_for('static', filename='img/bullets-title.svg')}}"/>
+    </div>
+    <div class="col-sm"></div>
+    <div class="col-sm"></div>
+    <div class="col-sm"></div>
+    <div class="col-sm"></div>
+    <div class="col-sm"></div>
+    <div class="col-sm"></div>
+    <div class="col-sm">
+        <a href="{{url_for('home')}}" class="more"><i class="fa-solid fa-house"></i> Início</a>
+    </div>
+</div>
+<h1 style="color: #FFFFFF">&nbspCertificados {{equip.equipamento}} - {{ equip.sn }}</h1>
+<br>
+<div class="container is-fluid">
+<table id="controle" class="display compact" style="width:100%; color:black;">
+    <style>
+        .dataTables_filter input {color: white;}
+        select {color: #ffffff}
+        option {color: #FFFFFF; background-color: #004765;}
+        label{color: white;}
+        span{color: #ffffff}
+        .dataTables_empty {color: #FFFFFF;}
+        div.dataTables_info {color: white !important;}
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: none;
+            color: #ffffff!important;
+            border-radius: 4px;
+            border: 1px solid #ffffff;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button{
+            background: none;
+            color: #ffffff!important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current{
+            background: none;
+            color: #ffffff!important;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+            background: none;
+            color: #ffffff!important;
+            border-radius: 4px;
+            border: 1px solid #ffffff;
+        }
+        td {
+            background-color: #FFFFFF;
+
+        }
+    </style>
+    <thead>
+        <tr>
+            <th style="text-align:center; color:#FFFFFF"> SN</th>
+            <th style="text-align:center; color:#FFFFFF"> Equipamento</th>
+            <th style="text-align:center; color:#FFFFFF"> Modelo </th>
+            <th style="text-align:center; color:#FFFFFF"> Fabricante </th>
+            <th style="text-align:center; color:#FFFFFF"> Calibração</th>
+            <th style="text-align:center; color:#FFFFFF"> Cert. </th>
+            <th style="text-align:center; color:#FFFFFF"> Del </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for doc in docs %}
+        <tr>
+            <td style="text-align:center">{{ equip.sn }}</td>
+            <td style="text-align:center">{{ equip.equipamento }}</td>
+            <td style="text-align:center">{{ equip.modelo }}</td>
+            <td style="text-align:center">{{ equip.fabricante }}</td>
+            <td style="text-align:center">{{ doc.calibracao }}</td>
+            <td style="text-align:center">
+                <a href="{{ url_for('download', fileName=doc.fileName) }}" style="color: #004765;" onclick="return confirm('Deseja fazer download do documento?')"><i class="fa-solid fa-file"></i></a>
+            </td>
+            <td style="text-align:center">
+                <a href="{{ url_for('deleteFile', fileName=doc.fileName) }}" style="color:#000000;" onclick="return confirm('Confirme para deletar!')"><i class="fa-solid fa-trash-can"></i></a>
+            </td>
+        </tr>
+        {% endfor %}
+</tbody>
+</table>
+</div>  
+<script> 
+    $(document).ready( function () {
+        $('#controle').DataTable({
+            scrollY: true,
+            scrollX: true,
+            searching: [{style: {color:'#ffffff'}}],
+            "pageLength": 100,
+            order:[[4 ,'desc']]
+        });
+        $('#controle').addClass("dataTable")
+        $('#controle').addClass("display")
+        $('#controle').addClass("compact")
+        $('#controle').addClass("hover")
+        $('#controle').addClass("cell-border")
+    } );
+
+    $(document).ready(function(){
+        $(".days").each(function(){
+            if ($(this).text() <= 5){ $(this).parent().css("background-color","#ea3416") }
+            if ($(this).text() <= 60 && $(this).text() > 5){ $(this).parent().css("background-color","#faa31b") }
+            if ($(this).text() > 60) { $(this).parent().css("background-color","#8fc347") }
+            if ($(this).text() == 9999) { $(this).parent().css("background-color","white") }
+        });
+
+});
+</script>
+{% endblock  %}
+

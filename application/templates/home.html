@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% block content %}
+<img src="{{ url_for('static', filename='img/bullets-title.svg')}}"/>
+<h1 style="color: #FFFFFF">Controle de calibração</h1>
+<div class="row">
+    <p>Cores:&nbsp&nbsp</p>
+    <p>Vermelho -> Calibração vencida |&nbsp&nbsp</p>
+    <p>Laranja -> Calibração a vencer |&nbsp&nbsp</p>
+    <p>Verde -> No prazo &nbsp&nbsp</p>
+    <div class="col-sm"></div>
+    <div class="col-sm">
+        <a href="{{ url_for('registro') }}" class="more">Criar registro</a>
+    </div>
+</div>
+<br>
+<div class="container is-fluid">
+<table id="controle" class="display compact" style="width:100%; color:black;">
+    <style>
+        .dataTables_filter input {color: white;}
+        select {color: #ffffff}
+        option {color: #FFFFFF; background-color: #004765;}
+        label{color: white;}
+        span{color: #ffffff}
+        .dataTables_empty {color: #FFFFFF;}
+        div.dataTables_info {color: white !important;}
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background: none;
+            color: #ffffff!important;
+            border-radius: 4px;
+            border: 1px solid #ffffff;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button{
+            background: none;
+            color: #ffffff!important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current{
+            background: none;
+            color: #ffffff!important;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+            background: none;
+            color: #ffffff!important;
+            border-radius: 4px;
+            border: 1px solid #ffffff;
+        }
+
+    </style>
+    <thead>
+        <tr>
+            <th style="text-align:center; color:#FFFFFF"> Equipamento</th>
+            <th style="text-align:center; color:#FFFFFF"> Modelo </th>
+            <th style="text-align:center; color:#FFFFFF"> Fabricante </th>
+            <th style="text-align:center; color:#FFFFFF"> SN</th>
+            <th style="text-align:center; color:#FFFFFF"> Projeto/<br>status </th>
+            <th style="text-align:center; color:#FFFFFF"> Calibração</th>
+            <th style="text-align:center; color:#FFFFFF"> Vencimento</th>
+            <th style="text-align:center; color:#FFFFFF"> Dias restantes </th>
+            <th style="text-align:center; color:#FFFFFF"> Cert. </th>
+            <th style="text-align:center; color:#FFFFFF"> Edit </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for equipment in equipments %}
+        <tr class="linha">
+            <td style="text-align:center">{{ equipment.equipamento }}</td>
+            <td style="text-align:center">{{ equipment.modelo }}</td>
+            <td style="text-align:center">{{ equipment.fabricante }}</td>
+            <td style="text-align:center" class="sn">{{ equipment.sn }}</td>
+            <td style="text-align:center" class="projeto">{{ equipment.projeto }}&nbsp
+                <a href="{{url_for('editProjeto',  sn=equipment.sn)}}" style="color:#000000;">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                </a>
+            </td>
+            <td style="text-align:center" class="calibracao">{{ equipment.calibracao }}</td>
+            <td style="text-align:center" class="vencimento">{{ equipment.vencimento }}</td>
+            <td style="text-align:center" class="days"></td>
+
+            {% if equipment.calibracao == None %}
+            <td style="text-align:center">
+                <span style="color:#000000;"><i class="fa-solid fa-file"></i></span>
+            </td>
+            {% else %}
+            <td style="text-align:center">
+                <a href="{{ url_for('certificados', sn=equipment.sn) }}" style="color: #004765;"><i class="fa-solid fa-file"></i></a>
+            </td>
+            {% endif %}
+            <td style="text-align:center"><a href="{{ url_for('edit', sn=equipment.sn) }}" style="color:#000000;">
+                    <i class="fa-solid fa-pen-to-square"></i></a>
+            </td>
+        </tr>
+        {% endfor %}
+</tbody>
+</table>
+</div>  
+<script> 
+$(document).ready(function(){
+    // Para cada tr na tabela de id controle
+    $("#controle tr").each(function(){
+        // vencimento = texto do elemento de class vencimento para esse tr
+        var vencimento = $(this).find('.vencimento').text();
+        // caso vencimento não seja None, ou seja, o equipamento tenha prazo e certificado.
+        if (vencimento != 'None'){
+            // converte para data
+            vencimento = new Date(vencimento);
+            // data do dia de hoje
+            today = new Date();
+            // calcula a quantidade de dias restantes em milisegundos.
+            dias_restantes = vencimento.getTime() - today.getTime();
+            // transforma de milisegundos para dias 
+            dias_restantes = Math.ceil((Math.ceil(dias_restantes)/1000)/86400);
+            // salva o serial number da linha
+            var sn = $(this).find('.sn').text()
+            // cria a string que gerará o icone de link para a página de edição do prazo.
+            var my_string = '&nbsp<a href="/editPrazo/sn1" style="color:#000000;"><i class="fa-solid fa-arrows-rotate"></i></a>'.replace('sn1',sn)
+            // para esse tr, o elemento com classe days adiciona dias_restantes + my_string
+            $(this).find('.days').html(parseInt(dias_restantes,10));
+            $(this).find('.vencimento').html($(this).find('.vencimento').text() + my_string);
+            
+        } else{
+            $(this).find('.days').html("9999");
+        }
+    });
+
+    // para cada elemento de classe days
+    $(".days").each(function(){
+        // se esse elemento for <=5, todos os parentes (mesma tr) recebem esse css
+        if ($(this).text() <= 5){ $(this).parent().css("background-color","#ea3416") }
+        else if ($(this).text() <= 150 && $(this).text() > 5){ $(this).parent().css("background-color","#faa31b") }
+        else if ($(this).text() > 150 && $(this).text() < 9999) { $(this).parent().css("background-color","#8fc347") }
+        else if ($(this).text() == 9999){ $(this).parent().css("background-color","white")}
+    });
+
+    $(".projeto").each(function(){
+        // se esse elemento for <=5, todos os parentes (mesma tr) recebem esse css
+        if ($(this).text().includes('DESTRUIDO')  || ($(this).text().includes('DESTRUÍDO'))){ $(this).parent().css({"background-color": "black" ,"color": "white"})}
+    
+    });
+    $('#controle').DataTable({
+        scrollY: true,
+        scrollX: true,
+        searching: [{style: {color:'#ffffff'}}],
+        "pageLength": 25,
+        order:[[4 ,'asc'],[7,'asc']]
+    });
+    $('#controle').addClass("dataTable");
+    $('#controle').addClass("display");
+    $('#controle').addClass("compact");
+    $('#controle').addClass("hover");
+    $('#controle').addClass("cell-border");
+
+});
+</script>
+{% endblock  %}
+

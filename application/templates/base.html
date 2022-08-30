@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Controle Calibração</title>
+    
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/pythonLogo.png') }}" type="image/x-icon" />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+    <style>
+        button{
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+<body class="home page-template page-template-model-homepage page-template-model-homepage-php page page-id-20">    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col containerItems" style="text-align:center;">
+                <a href="{{url_for('home')}}">
+                       <img src="{{ url_for('static', filename='img/pythonLogo.png') }}" alt="Home" width="50" height="100"/>
+                </a>
+                <hr style="background-color: #ffffff ;">
+            </div>
+        </div>
+    </div>
+    <div class="section">
+        <div class="container  max-width:100%">          
+            <div class="container is-fluid has-text-centered">
+            {% block content %}
+            {% endblock %}
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="container">
+        <div class="row">
+            <div class="col containerItems" style="text-align:center;">
+                <p style="color: #ffffff;">
+                    Copyright © 2022.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

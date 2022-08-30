@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if error %}
+<p class=error style="color:#FF0000"><strong>Error:</strong> {{ error }}
+{% endif %}
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col containerItems" style="text-align:center;">
+            <h1 style="color:#ffffff"> Atualizar prazo de vencimento</h1>
+        </div>
+    </div>
+</div>
+<br>
+<form action="" method="post">
+    <div class="row">
+        <div class="col-sm"></div>
+        <div class="col-sm">
+            <div class="form-group">
+                <span style="color:#ffffff; text-align: center;"><strong>Serial Number :</strong>
+                    <input class="form-control" placeholder="{{ equipment.sn }}" type="text" readonly>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm"></div>
+</div>
+<div class="row">
+        <div class="col-sm"></div>
+        <div class="col-sm">
+            <div class="form-group">
+                <span style="color:#ffffff; text-align: center;"><strong>Equipamento :</strong>
+                    <input class="form-control" placeholder="{{ equipment.equipamento }}" type="text" readonly>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm"></div>
+</div>
+<div class="row">
+        <div class="col-sm"></div>
+        <div class="col-sm">
+            <div class="form-group">
+                <span style="color:#ffffff; text-align: center;"><strong>Fabricante :</strong>
+                    <input class="form-control" placeholder="{{ equipment.fabricante }}" type="text" readonly>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm"></div>
+</div>
+<div class="row">
+        <div class="col-sm"></div>
+        <div class="col-sm">
+            <div class="form-group">
+                <span style="color:#ffffff; text-align: center;"><strong>Modelo :</strong>
+                    <input class="form-control" placeholder="{{ equipment.modelo }}" type="text" readonly>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm"></div>
+</div>
+<div class="row">
+        <div class="col-sm"></div>
+        <div class="col-sm">
+            <div class="form-group">
+                <span style="color:#ffffff; text-align: center;"><strong>Projeto :</strong>
+                    <input class="form-control" placeholder="{{ equipment.projeto }}" type="text" readonly>
+                </span>
+            </div>
+        </div>
+        <div class="col-sm"></div>
+</div>
+<div class="row">
+        <div class="col-sm"></div>
+
+        <div class="col-sm">
+            <div class="form-group">
+                <span style="color:#ffffff; text-align: center;"><strong>Prazo de vencimento :</strong>
+                {{ form.prazo (class_='form-control', placeholder_='Prazo de vencimento em dias') }}
+                </span>
+            </div>
+        </div>
+        <div class="col-sm"></div>
+</div>
+<div class="container">
+    <div class="row" style="text-align:center;">
+        <div class="col-sm"></div>
+        <div class="col-sm"></div>
+        <div class="col-sm"> 
+            <a href="{{ url_for('home') }}">
+                <button style="background-color: #faa31b; color: #ffffff; width: 150px;" class=" btn custom_cta" type="submit" name="submit_button" value="cancel" formnovalidate>
+                Cancel</button>
+            </a>      
+            </div>
+            <div class="col-sm col-11">
+                <button style="width: 150px;" class="btn custom_cta  font-weight-bold" type="submit" name="submit_button" value="ok"> OK </button>
+            </div>
+            <div class="col-sm"></div>
+            <div class="col-sm"></div>
+        </div>
+        </div>
+</form>
+{% endblock %}
